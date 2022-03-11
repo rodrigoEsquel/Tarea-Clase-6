@@ -14,31 +14,63 @@ const nodoPagina = document.querySelector('body');
 
 const $botonNumeroFamiliares = document.querySelector("#btn-numero-familiares");
 
-$botonNumeroFamiliares.onclick = function () {
+$botonNumeroFamiliares.onclick = function (event) {
+  event.preventDefault();
 
-if (Number(document.querySelector("#numero-familiares").value) > 0) {
-  $botonNumeroFamiliares.disabled = true;
+  function resetID(id) {
+    document.querySelector(`#${id}`).innerHTML = "";
+  }
+
+  function crearFamiliar(indice) {
+    const contenedor = document.createElement("div");
+    
+    contenedor.appendChild(crearLabel(indice));
+    contenedor.appendChild(crearInput("edad"));
+    contenedor.appendChild(crearBotones(indice));
+    contenedor.appendChild(crearInput("sueldo",indice));
+
+    document.querySelector("#edades").appendChild(contenedor);
+  }
+
+  function crearLabel(indice) {
+    const labelFamiliar = document.createElement("label");
+    labelFamiliar.innerText = "Familiar " + String(indice + 1);
+    return labelFamiliar;
+  }
+
+  function crearInput(tipoDato,indice = -1) {
+    const inputFamiliar = document.createElement("input");
+    inputFamiliar.type = "text";
+    inputFamiliar.className = `${tipoDato}-familiar`;
+    inputFamiliar.placeholder = `Ingresar ${tipoDato} del familiar`;
+    if (indice >= 0) {
+      inputFamiliar.id = `${tipoDato}-familiar-${indice}`;
+    }
+    return inputFamiliar;
+  }
+
+  function crearBotones() {
+    const botonAgregarSueldo = document.createElement("button");
+    botonAgregarSueldo.innerText = "Agregar sueldo";
+    botonAgregarSueldo.onclick = function () {
+
+    }
+    return botonAgregarSueldo;
+  }
+
+  resetID("edades");
+  resetID("sueldos");
 
   const $body = document.querySelector("body");
-  const $resultado = document.querySelector("#resultado");
+  const $resultado = document.querySelector("#resultado-edad");
   const $resultadoSueldo = document.querySelector("#resultado-sueldo");
-  const numeroFamiliares = Number(document.querySelector("#numero-familiares").value);
+  const numeroFamiliares =
+    Number(document.querySelector("#numero-familiares").value) || 0;
   const nuevoFormulario = document.createElement("form");
   nuevoFormulario.id = "formularioExtra";
 
-  for (let i = 0; i < numeroFamiliares; i++) {
-
-    // Edades familiares
-
-    const nuevoLabel = document.createElement("label");
-    nuevoLabel.innerText = "Familiar " + String(i + 1);
-    nuevoFormulario.appendChild(nuevoLabel);
-
-    const nuevoInput = document.createElement("input");
-    nuevoInput.type = "text";
-    nuevoInput.className = "edad-familiar";
-    nuevoInput.placeholder = "Ingresar la edad del familiar";
-    nuevoFormulario.appendChild(nuevoInput);
+  for (let i = 0; i < numeroFamiliares; i++) {    
+    crearFamiliar(i);
 
     // Botones Sueldos
 
@@ -69,7 +101,6 @@ if (Number(document.querySelector("#numero-familiares").value) > 0) {
       return false;
     };
     nuevoFormulario.appendChild(nuevoBotonQuitar);
-    
   }
 
   const botonCalcular = document.createElement("button");
@@ -91,7 +122,14 @@ if (Number(document.querySelector("#numero-familiares").value) > 0) {
       suma = suma + (Number($arrayDeEdades[i].value) || 0);
 
       let promedio = suma / $arrayDeEdades.length;
-      $resultado.innerText = "La edad minima es " + minimo + " años, la maxima es " + maximo + " años, y el promedio es de " + promedio + " años.";
+      $resultado.innerText =
+        "La edad minima es " +
+        minimo +
+        " años, la maxima es " +
+        maximo +
+        " años, y el promedio es de " +
+        promedio +
+        " años.";
     }
 
     if (document.querySelectorAll(".sueldo-familiar")) {
@@ -115,7 +153,14 @@ if (Number(document.querySelector("#numero-familiares").value) > 0) {
       }
       if (cantidadSueldo > 0) {
         let promedioSueldo = sumaSueldo / cantidadSueldo;
-        $resultadoSueldo.innerText ="El sueldo minimo es $" + minimoSueldo + ", el sueldo maximo es $" + maximoSueldo + ", y el promedio es de $" + promedioSueldo + ".";
+        $resultadoSueldo.innerText =
+          "El sueldo minimo es $" +
+          minimoSueldo +
+          ", el sueldo maximo es $" +
+          maximoSueldo +
+          ", y el promedio es de $" +
+          promedioSueldo +
+          ".";
       }
     }
 
@@ -128,7 +173,10 @@ if (Number(document.querySelector("#numero-familiares").value) > 0) {
   botonReset.innerText = "Reset";
   botonReset.onclick = function () {
     $body.removeChild(document.querySelector("#formularioExtra"));
-    $botonNumeroFamiliares.disabled = false;
+
+    resetID("edades");
+    resetID("sueldos");
+
     $resultado.innerText = "Aca van a aparecer los resultados!";
     $resultadoSueldo.innerText = "";
     return false;
@@ -138,7 +186,6 @@ if (Number(document.querySelector("#numero-familiares").value) > 0) {
   $body.appendChild(nuevoFormulario);
 
   return false;
-}
 };
 
 /*
