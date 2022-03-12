@@ -14,131 +14,146 @@ const nodoPagina = document.querySelector('body');
 
 const $botonNumeroFamiliares = document.querySelector("#btn-numero-familiares");
 
-$botonNumeroFamiliares.onclick = function () {
+$botonNumeroFamiliares.onclick = function (event) {
+  event.preventDefault();
+  
+  function resetID(id) {
+    document.querySelector(`#${id}`).innerHTML = "";
+  }
 
-if (Number(document.querySelector("#numero-familiares").value) > 0) {
-  $botonNumeroFamiliares.disabled = true;
+  function resetResultados() {
+    document.querySelector("#resultado-edad").innerHTML = "Aca van a aparecer los resultados!";
+    document.querySelector("#resultado-sueldo").innerHTML = "";
+  }
 
-  const $body = document.querySelector("body");
-  const $resultado = document.querySelector("#resultado");
-  const $resultadoSueldo = document.querySelector("#resultado-sueldo");
+  function crearFamiliar(indice) {
+    const contenedor = document.createElement("div");
+
+    contenedor.appendChild(crearLabel(indice));
+    contenedor.appendChild(crearInput("edad"));
+    contenedor.appendChild(crearBotonAgregarSueldo(indice));
+    contenedor.appendChild(crearBotonQuitarSueldo(indice));
+    contenedor.appendChild(crearInput("sueldo",indice));
+
+    document.querySelector("#familiares").appendChild(contenedor);
+  }
+
+  function crearLabel(indice) {
+    const labelFamiliar = document.createElement("label");
+    labelFamiliar.innerText = "Familiar " + String(indice + 1);
+    return labelFamiliar;
+  }
+
+  function crearInput(tipoDato,indice = -1) {
+    const inputFamiliar = document.createElement("input");
+    inputFamiliar.type = "text";
+    inputFamiliar.className = `${tipoDato}`;
+    inputFamiliar.placeholder = `Ingresar ${tipoDato} del familiar`;
+    inputFamiliar.classList.add("activo")
+    if (indice >= 0) {
+      inputFamiliar.id = `${tipoDato}-familiar-${indice}`;
+      inputFamiliar.classList.replace("activo","oculto");
+    }
+    return inputFamiliar;
+  }
+
+  function crearBotonAgregarSueldo(indice) {
+    const botonAgregarSueldo = document.createElement("button");
+    botonAgregarSueldo.innerText = "Agregar sueldo";
+    botonAgregarSueldo.id = `agregar-sueldo-familiar-${indice}`;
+    botonAgregarSueldo.classList.add("activo");
+    botonAgregarSueldo.onclick = function () {
+      document.getElementById(`sueldo-familiar-${indice}`).classList.replace("oculto","activo");
+      document.getElementById(`quitar-sueldo-familiar-${indice}`).classList.replace("oculto","activo");
+      document.getElementById(`agregar-sueldo-familiar-${indice}`).classList.replace("activo","oculto");
+    }
+    return botonAgregarSueldo;
+  }
+
+  function crearBotonQuitarSueldo(indice) {
+    const botonQuitarSueldo = document.createElement("button");
+    botonQuitarSueldo.innerText = "Quitar sueldo";
+    botonQuitarSueldo.id = `quitar-sueldo-familiar-${indice}`;
+    botonQuitarSueldo.classList.add("oculto");
+    botonQuitarSueldo.onclick = function () {
+      document.getElementById(`sueldo-familiar-${indice}`).classList.replace("activo","oculto");
+      document.getElementById(`quitar-sueldo-familiar-${indice}`).classList.replace("activo","oculto");
+      document.getElementById(`agregar-sueldo-familiar-${indice}`).classList.replace("oculto","activo");
+    }
+    return botonQuitarSueldo;
+  }
+
+  resetID("familiares");
+  resetID("botones");
+
   const numeroFamiliares = Number(document.querySelector("#numero-familiares").value);
-  const nuevoFormulario = document.createElement("form");
-  nuevoFormulario.id = "formularioExtra";
 
-  for (let i = 0; i < numeroFamiliares; i++) {
-
-    // Edades familiares
-
-    const nuevoLabel = document.createElement("label");
-    nuevoLabel.innerText = "Familiar " + String(i + 1);
-    nuevoFormulario.appendChild(nuevoLabel);
-
-    const nuevoInput = document.createElement("input");
-    nuevoInput.type = "text";
-    nuevoInput.className = "edad-familiar";
-    nuevoInput.placeholder = "Ingresar la edad del familiar";
-    nuevoFormulario.appendChild(nuevoInput);
-
-    // Botones Sueldos
-
-    const nuevoBotonAgregar = document.createElement("button");
-    nuevoBotonAgregar.innerText = "Agregar sueldo";
-    nuevoBotonAgregar.onclick = function () {
-      if (!document.querySelector("#sueldo-" + (i + 1))) {
-        const inputSueldo = document.createElement("input");
-        inputSueldo.type = "text";
-        inputSueldo.id = "sueldo-" + (i + 1);
-        inputSueldo.placeholder = "Ingresar el sueldo del familiar";
-        inputSueldo.className = "sueldo-familiar";
-        nuevoFormulario.insertBefore(inputSueldo, nuevoBotonAgregar);
-      }
-      return false;
-    };
-    nuevoFormulario.appendChild(nuevoBotonAgregar);
-
-    const nuevoBotonQuitar = document.createElement("button");
-    nuevoBotonQuitar.innerText = "Quitar sueldo";
-    nuevoBotonQuitar.id = "quitar-sueldo-" + (i + 1);
-    nuevoBotonQuitar.onclick = function () {
-      if (document.querySelector("#sueldo-" + (i + 1))) {
-        nuevoFormulario.removeChild(
-          document.querySelector("#sueldo-" + (i + 1))
-        );
-      }
-      return false;
-    };
-    nuevoFormulario.appendChild(nuevoBotonQuitar);
-    
+  for (let i = 0; i < numeroFamiliares; i++) {    
+    crearFamiliar(i);
   }
 
   const botonCalcular = document.createElement("button");
   botonCalcular.id = "boton-calcular";
   botonCalcular.innerText = "Calcular";
   botonCalcular.onclick = function () {
-    const $arrayDeEdades = document.querySelectorAll(".edad-familiar");
-    let minimo = Number.POSITIVE_INFINITY;
-    let maximo = Number.NEGATIVE_INFINITY;
-    let suma = 0;
-    for (let i = 0; i < $arrayDeEdades.length; i++) {
-      if (Number($arrayDeEdades[i].value) < minimo) {
-        minimo = Number($arrayDeEdades[i].value);
-      }
-      if (Number($arrayDeEdades[i].value) > maximo) {
-        maximo = Number($arrayDeEdades[i].value);
-      }
 
-      suma = suma + (Number($arrayDeEdades[i].value) || 0);
-
-      let promedio = suma / $arrayDeEdades.length;
-      $resultado.innerText = "La edad minima es " + minimo + " años, la maxima es " + maximo + " años, y el promedio es de " + promedio + " años.";
+    function resolver(tipoCalculo) {
+      const arrayElementos = document.querySelectorAll(`.activo.${tipoCalculo}`);
+      document.querySelector(`#resultado-${tipoCalculo}`).innerText = `
+      Mayor ${tipoCalculo} es: ${conseguirMaximo(arrayElementos)},
+      menor ${tipoCalculo} es: ${conseguirMinimo(arrayElementos)},
+      ${tipoCalculo} promedio: ${conseguirMedio(arrayElementos)}.
+      `
     }
 
-    if (document.querySelectorAll(".sueldo-familiar")) {
-      const $arrayDeSueldos = document.querySelectorAll(".sueldo-familiar");
-      let minimoSueldo = Number.POSITIVE_INFINITY;
-      let maximoSueldo = Number.NEGATIVE_INFINITY;
-      let sumaSueldo = 0;
-      let cantidadSueldo = 0;
-
-      for (let i = 0; i < $arrayDeSueldos.length; i++) {
-        if (Number($arrayDeSueldos[i].value) < minimoSueldo) {
-          minimoSueldo = Number($arrayDeSueldos[i].value);
+    function conseguirMaximo(arrayElementos) {
+      let maximo = Number(arrayElementos[0].value);
+      arrayElementos.forEach(element => {
+        if (element.value > maximo) {
+          maximo = Number(element.value);
         }
-        if (Number($arrayDeSueldos[i].value) > maximoSueldo) {
-          maximoSueldo = Number($arrayDeSueldos[i].value);
-        }
-        if (Number($arrayDeSueldos[i].value) > 0) {
-          sumaSueldo = sumaSueldo + Number($arrayDeSueldos[i].value);
-          cantidadSueldo++;
-        }
-      }
-      if (cantidadSueldo > 0) {
-        let promedioSueldo = sumaSueldo / cantidadSueldo;
-        $resultadoSueldo.innerText ="El sueldo minimo es $" + minimoSueldo + ", el sueldo maximo es $" + maximoSueldo + ", y el promedio es de $" + promedioSueldo + ".";
-      }
+      });
+      return maximo;
     }
 
-    return false;
+    function conseguirMedio(arrayElementos) {
+      let suma = 0;
+      let cantidad = 0;
+      arrayElementos.forEach(element => {
+        if (element.value !== "") {
+          suma += Number(element.value);
+          cantidad++;
+        }
+      });
+      if (cantidad > 0) {
+        return suma / cantidad;
+      } 
+      return cantidad;
+    }
+
+    function conseguirMinimo(arrayElementos) {
+      let minimo = Number(arrayElementos[0].value);
+      arrayElementos.forEach(element => {
+        if (element.value < minimo) {
+          minimo = Number(element.value);
+        }
+      });
+      return minimo;
+    }
+
+    resolver("edad");
+    resolver("sueldo");
   };
-  nuevoFormulario.appendChild(botonCalcular);
-
+  document.querySelector("#botones").appendChild(botonCalcular);
+  
   const botonReset = document.createElement("button");
-  botonReset.id = "boton-reset";
   botonReset.innerText = "Reset";
   botonReset.onclick = function () {
-    $body.removeChild(document.querySelector("#formularioExtra"));
-    $botonNumeroFamiliares.disabled = false;
-    $resultado.innerText = "Aca van a aparecer los resultados!";
-    $resultadoSueldo.innerText = "";
-    return false;
+    resetID("familiares");
+    resetID("botones");
+    resetResultados();
   };
-  nuevoFormulario.appendChild(botonReset);
-
-  $body.appendChild(nuevoFormulario);
-
-  return false;
-}
+  document.querySelector("#botones").appendChild(botonReset);
 };
 
 /*
