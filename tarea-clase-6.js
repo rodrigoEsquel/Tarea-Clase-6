@@ -110,7 +110,7 @@ $botonNumeroFamiliares.onclick = function (event) {
       let maximo = Number(arrayElementos[0].value);
       arrayElementos.forEach(element => {
         if (element.value > maximo) {
-          maximo = element.value;
+          maximo = Number(element.value);
         }
       });
       return maximo;
@@ -121,7 +121,7 @@ $botonNumeroFamiliares.onclick = function (event) {
       let cantidad = 0;
       arrayElementos.forEach(element => {
         if (element.value !== "") {
-          suma += element.value;
+          suma += Number(element.value);
           cantidad++;
         }
       });
@@ -135,7 +135,7 @@ $botonNumeroFamiliares.onclick = function (event) {
       let minimo = Number(arrayElementos[0].value);
       arrayElementos.forEach(element => {
         if (element.value < minimo) {
-          minimo = element.value;
+          minimo = Number(element.value);
         }
       });
       return minimo;
