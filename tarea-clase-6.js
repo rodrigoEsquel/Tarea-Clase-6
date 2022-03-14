@@ -49,7 +49,7 @@ $botonNumeroFamiliares.onclick = function (event) {
     const inputFamiliar = document.createElement("input");
     inputFamiliar.type = "text";
     inputFamiliar.className = `${tipoDato}`;
-    inputFamiliar.placeholder = `Ingresar ${tipoDato} del familiar`;
+    inputFamiliar.placeholder = `Ingresar ${tipoDato}`;
     inputFamiliar.classList.add("activo");
     if (indice >= 0) {
       inputFamiliar.id = `${tipoDato}-familiar-${indice}`;
@@ -171,7 +171,7 @@ function conseguirMedio(arrayarrayValores) {
   let cantidad = 0;
   arrayarrayValores.forEach((element) => {
     if (element !== "") {
-      suma =  suma + element;
+      suma = suma + element;
       cantidad++;
     }
   });
