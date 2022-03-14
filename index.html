@@ -11,15 +11,43 @@
 </head>
 
 <body>
-    <form>
-        <input type="text" id="numero-familiares" placeholder="Ingrese el numero de familiares">
-        <button id="btn-numero-familiares">Generar</button>
-    </form>
-    <p id="resultado-edad">Aca van a aparecer los resultados!</p>
-    <p id="resultado-sueldo"></p>
-    <div id="familiares"></div>    
-    <div id="botones"></div>
-    <script src="tarea-clase-6.js"></script>
-    <script src="test.js"></script>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1>Calculador de Edades y Sueldos de Familiares!</h1>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <div>
+          <form>
+            <input type="text" id="numero-familiares" placeholder="Numero de familiares" />
+            <button id="btn-numero-familiares">Generar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <div id="botones" class="row justify-content-center"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-8">
+        <div id="familiares"></div>
+      </div>
+
+      <div class="col">
+        <div>
+          <p class="text-primary fs-4" id="resultado-edad">Aca van a aparecer los resultados!</p>
+          <p class="text-primary fs-4" id="resultado-sueldo"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="tarea-clase-6.js"></script>
+  <script src="test.js"></script>
 </body>
+
 </html>
