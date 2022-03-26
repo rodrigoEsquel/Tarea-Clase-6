@@ -1,22 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="node_modules\bootstrap\dist\css\bootstrap.min.css" />
+  <title>Document</title>
 </head>
+
 <body>
-    <form>
-        <input type="text" id="numero-familiares" placeholder="Ingrese el numero de familiares">
-        <button id="btn-numero-familiares">Generar</button>
-    </form>
-    <p id="resultado-edad">Aca van a aparecer los resultados!</p>
-    <p id="resultado-sueldo"></p>
-    <div id="familiares"></div>    
-    <div id="botones"></div>
-    <script src="tarea-clase-6.js"></script>
-    <script src="test.js"></script>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page"
+              href="file:///C:/Users/Rodrigo/Documents/Cursos/ArgentinaPrograma/1_%20Intro/Tareas/Clase%205/Tarea-Clase-6/Tarea-Clase-6/index.html?#">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/rodrigoEsquel">GitHub</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://argentinaprograma.com/">Quiero más!</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Ayuda</a>
+          </li>
+        </ul>
+        <div class="d-flex">
+          <a class="navbar-brand" href="#">calculadoraDeParientes.JS</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="container py-3">
+    <div class="row">
+      <div class="col text-center rounded my-3 bg-dark p-2 text-white bg-opacity-75">
+        <h1>Calculador de Edades y Sueldos de Familiares</h1>
+      </div>
+    </div>
+    <div class="row ">
+      <div class="col">
+        <form class="row my-1 justify-content-center">
+          <input type="text" id="numero-familiares" class="col-2 text-center" placeholder="Numero de familiares" />
+          <button id="btn-numero-familiares" class="col-1 btn btn-outline-secondary">Generar</button>
+        </form>
+        <div id="botones" class="row my-1 justify-content-center"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col p-0">
+        <div id="familiares" class="rounded my-3 bg-dark bg-opacity-25 px-5 py-1">
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center my-1">
+      <div>
+        <div class="col">
+          <p class="text-secondary fs-5" id="resultado-edad"></p>
+        </div>
+        <div class="col">
+          <p class="text-secondary fs-5" id="resultado-sueldo"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="tarea-clase-6.js"></script>
+  <script src="test.js"></script>
 </body>
+
 </html>

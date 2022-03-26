@@ -1,0 +1,22 @@
+{
+  "name": "tarea-clase-6",
+  "version": "1.0.0",
+  "description": "Calculador de Edades y Sueldos de Familiares",
+  "main": "tarea-clase-6.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rodrigoEsquel/Tarea-Clase-6.git"
+  },
+  "author": "Rodrigo Fernandez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rodrigoEsquel/Tarea-Clase-6/issues"
+  },
+  "homepage": "https://github.com/rodrigoEsquel/Tarea-Clase-6#readme",
+  "dependencies": {
+    "bootstrap": "^5.1.3"
+  }
+}
