@@ -17,14 +17,13 @@ const $botonNumeroFamiliares = document.querySelector("#btn-numero-familiares");
 $botonNumeroFamiliares.onclick = function (event) {
   event.preventDefault();
 
-  function resetID(id) {
-    document.querySelector(`#${id}`).innerHTML = "";
+  function borrarElemento(elemento) {
+    elemento.innerHTML = "";
   }
 
-  function resetResultados() {
-    document.querySelector("#resultado-edad").innerHTML =
-      "";
-    document.querySelector("#resultado-sueldo").innerHTML = "";
+  function borrarResultados() {
+    borrarElemento(document.querySelector("#resultado-edad"));
+    borrarElemento(document.querySelector("#resultado-sueldo"));
   }
 
   function crearFamiliar(indice) {
@@ -59,11 +58,11 @@ $botonNumeroFamiliares.onclick = function (event) {
     return inputFamiliar;
   }
 
-  function conseguirValores(arrayElementos) {
+  function valores(arrayElementos) {
     const arrayValores = [];
-    arrayElementos.forEach((element, indice) => {
-      if (element.value !== "") {
-        arrayValores[indice] = element.value;
+    arrayElementos.forEach((elemento) => {
+      if (elemento.value !== "") {
+        arrayValores.push(Number(elemento.value));
       }
     });
     return arrayValores;
@@ -91,7 +90,7 @@ $botonNumeroFamiliares.onclick = function (event) {
   function crearBotonQuitarSueldo(indice) {
     const botonQuitarSueldo = document.createElement("button");
     botonQuitarSueldo.innerText = "Quitar sueldo";
-    botonQuitarSueldo.id = `quitar-sueldo-familiar-${indice}`;    
+    botonQuitarSueldo.id = `quitar-sueldo-familiar-${indice}`;
     botonQuitarSueldo.className = "visually-hidden col-2 btn btn-outline-dark";
     botonQuitarSueldo.onclick = function () {
       document
@@ -107,8 +106,19 @@ $botonNumeroFamiliares.onclick = function (event) {
     return botonQuitarSueldo;
   }
 
-  resetID("familiares");
-  resetID("botones");
+  function resolverCalculo(tipoCalculo) {
+    let $elementosCalculo = document.querySelectorAll(`.activo.${tipoCalculo}`);
+    document.querySelector(`#resultado-${tipoCalculo}`).innerText = `
+      Mayor ${tipoCalculo} es: ${conseguirMaximo(
+      valores($elementosCalculo)
+    )},menor ${tipoCalculo} es: ${conseguirMinimo(
+      valores($elementosCalculo)
+    )}, ${tipoCalculo} promedio: ${conseguirMedio(valores($elementosCalculo))}.
+      `;
+  }
+
+  borrarElemento(document.querySelector("#familiares"));
+  borrarElemento(document.querySelector("#botones"));
 
   const numeroFamiliares = Number(
     document.querySelector("#numero-familiares").value
@@ -124,19 +134,9 @@ $botonNumeroFamiliares.onclick = function (event) {
   botonCalcular.type = "button";
   botonCalcular.className = "col-1 btn btn-outline-success";
   botonCalcular.onclick = function () {
-    function resolver(tipoCalculo) {
-      let arrayValores = conseguirValores(
-        document.querySelectorAll(`.activo.${tipoCalculo}`)
-      );
-
-      document.querySelector(`#resultado-${tipoCalculo}`).innerText = `
-        Mayor ${tipoCalculo} es: ${conseguirMaximo(arrayValores)},menor ${tipoCalculo} es: ${conseguirMinimo(arrayValores)}, ${tipoCalculo} promedio: ${conseguirMedio(arrayValores)}.
-        `;
-    }
-
-    resolver("edad");
+    resolverCalculo("edad");
     if (document.querySelectorAll(".activo.sueldo").length > 0) {
-      resolver("sueldo");
+      resolverCalculo("sueldo");
     }
   };
   document.querySelector("#botones").appendChild(botonCalcular);
@@ -146,9 +146,9 @@ $botonNumeroFamiliares.onclick = function (event) {
   botonReset.type = "button";
   botonReset.className = "col-1 btn btn-outline-danger";
   botonReset.onclick = function () {
-    resetID("familiares");
-    resetID("botones");
-    resetResultados();
+    borrarElemento(document.querySelector("#familiares"));
+    borrarElemento(document.querySelector("#botones"));
+    borrarResultados();
   };
   document.querySelector("#botones").appendChild(botonReset);
 };
@@ -161,9 +161,9 @@ Al hacer click en "calcular", mostrar en un elemento pre-existente el mayor sala
 Punto bonus: si hay inputs vacíos, ignorarlos en el cálculo (no contarlos como 0).
 */
 
-function conseguirMaximo(arrayarrayValores) {
-  let maximo =  Number.NEGATIVE_INFINITY;
-  arrayarrayValores.forEach((element) => {
+function conseguirMaximo(valores) {
+  let maximo = valores[0];
+  valores.forEach((element) => {
     if (element > maximo) {
       maximo = element;
     }
@@ -171,26 +171,24 @@ function conseguirMaximo(arrayarrayValores) {
   return maximo;
 }
 
-function conseguirMedio(arrayarrayValores) {
+function conseguirMedio(valores) {
   let suma = 0;
   let cantidad = 0;
-  arrayarrayValores.forEach((element) => {
-    if (element !== "") {
-      suma = suma + Number(element);
+  valores.forEach((element) => {
+      suma = suma + element;
       cantidad++;
-    }
   });
   if (cantidad > 0) {
-    return (suma / cantidad);
+    return suma / cantidad;
   }
   return cantidad;
 }
 
-function conseguirMinimo(arrayarrayValores) {
-  let minimo = Number.POSITIVE_INFINITY;
-  arrayarrayValores.forEach((element) => {
+function conseguirMinimo(valores) {
+  let minimo = valores[0];
+  valores.forEach((element) => {
     if (element < minimo) {
-      minimo = Number(element);
+      minimo = element;
     }
   });
   return minimo;
