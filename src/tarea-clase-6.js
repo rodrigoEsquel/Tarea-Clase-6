@@ -12,48 +12,48 @@ const nodoPagina = document.querySelector('body');
     nodoPagina.appendChild(nuevoParrafo);
 */
 
-const $botonNumeroFamiliares = document.querySelector("#btn-numero-familiares");
+const $botonNumeroFamiliares = document.querySelector('#btn-numero-familiares');
 
 $botonNumeroFamiliares.onclick = function (event) {
   event.preventDefault();
 
   function borrarElemento(elemento) {
-    elemento.innerHTML = "";
+    elemento.innerHTML = '';
   }
 
   function borrarResultados() {
-    borrarElemento(document.querySelector("#resultado-edad"));
-    borrarElemento(document.querySelector("#resultado-sueldo"));
+    borrarElemento(document.querySelector('#resultado-edad'));
+    borrarElemento(document.querySelector('#resultado-sueldo'));
   }
 
   function crearFamiliar(indice) {
-    const contenedor = document.createElement("div");
-    contenedor.className = "row my-1";
+    const contenedor = document.createElement('div');
+    contenedor.className = 'row my-1';
 
     contenedor.appendChild(crearLabel(indice));
-    contenedor.appendChild(crearInput("edad"));
+    contenedor.appendChild(crearInput('edad'));
     contenedor.appendChild(crearBotonAgregarSueldo(indice));
     contenedor.appendChild(crearBotonQuitarSueldo(indice));
-    contenedor.appendChild(crearInput("sueldo", indice));
+    contenedor.appendChild(crearInput('sueldo', indice));
 
-    document.querySelector("#familiares").appendChild(contenedor);
+    document.querySelector('#familiares').appendChild(contenedor);
   }
 
   function crearLabel(indice) {
-    const labelFamiliar = document.createElement("label");
-    labelFamiliar.innerText = "Familiar " + String(indice + 1);
-    labelFamiliar.className = "col-2 fs-5";
+    const labelFamiliar = document.createElement('label');
+    labelFamiliar.innerText = 'Familiar ' + String(indice + 1);
+    labelFamiliar.className = 'col-2 fs-5';
     return labelFamiliar;
   }
 
   function crearInput(tipoDato, indice = -1) {
-    const inputFamiliar = document.createElement("input");
-    inputFamiliar.type = "text";
+    const inputFamiliar = document.createElement('input');
+    inputFamiliar.type = 'text';
     inputFamiliar.className = `${tipoDato} activo col-4`;
     inputFamiliar.placeholder = `Ingresar ${tipoDato}`;
     if (indice >= 0) {
       inputFamiliar.id = `${tipoDato}-familiar-${indice}`;
-      inputFamiliar.classList.replace("activo", "visually-hidden");
+      inputFamiliar.classList.replace('activo', 'visually-hidden');
     }
     return inputFamiliar;
   }
@@ -61,7 +61,7 @@ $botonNumeroFamiliares.onclick = function (event) {
   function valores(arrayElementos) {
     const arrayValores = [];
     arrayElementos.forEach((elemento) => {
-      if (elemento.value !== "") {
+      if (elemento.value !== '') {
         arrayValores.push(Number(elemento.value));
       }
     });
@@ -69,39 +69,39 @@ $botonNumeroFamiliares.onclick = function (event) {
   }
 
   function crearBotonAgregarSueldo(indice) {
-    const botonAgregarSueldo = document.createElement("button");
-    botonAgregarSueldo.innerText = "Agregar sueldo";
+    const botonAgregarSueldo = document.createElement('button');
+    botonAgregarSueldo.innerText = 'Agregar sueldo';
     botonAgregarSueldo.id = `agregar-sueldo-familiar-${indice}`;
-    botonAgregarSueldo.className = "activo col-2 btn btn-outline-dark";
+    botonAgregarSueldo.className = 'activo col-2 btn btn-outline-dark';
     botonAgregarSueldo.onclick = function () {
       document
         .getElementById(`sueldo-familiar-${indice}`)
-        .classList.replace("visually-hidden", "activo");
+        .classList.replace('visually-hidden', 'activo');
       document
         .getElementById(`quitar-sueldo-familiar-${indice}`)
-        .classList.replace("visually-hidden", "activo");
+        .classList.replace('visually-hidden', 'activo');
       document
         .getElementById(`agregar-sueldo-familiar-${indice}`)
-        .classList.replace("activo", "visually-hidden");
+        .classList.replace('activo', 'visually-hidden');
     };
     return botonAgregarSueldo;
   }
 
   function crearBotonQuitarSueldo(indice) {
-    const botonQuitarSueldo = document.createElement("button");
-    botonQuitarSueldo.innerText = "Quitar sueldo";
+    const botonQuitarSueldo = document.createElement('button');
+    botonQuitarSueldo.innerText = 'Quitar sueldo';
     botonQuitarSueldo.id = `quitar-sueldo-familiar-${indice}`;
-    botonQuitarSueldo.className = "visually-hidden col-2 btn btn-outline-dark";
+    botonQuitarSueldo.className = 'visually-hidden col-2 btn btn-outline-dark';
     botonQuitarSueldo.onclick = function () {
       document
         .getElementById(`sueldo-familiar-${indice}`)
-        .classList.replace("activo", "visually-hidden");
+        .classList.replace('activo', 'visually-hidden');
       document
         .getElementById(`quitar-sueldo-familiar-${indice}`)
-        .classList.replace("activo", "visually-hidden");
+        .classList.replace('activo', 'visually-hidden');
       document
         .getElementById(`agregar-sueldo-familiar-${indice}`)
-        .classList.replace("visually-hidden", "activo");
+        .classList.replace('visually-hidden', 'activo');
     };
     return botonQuitarSueldo;
   }
@@ -117,40 +117,42 @@ $botonNumeroFamiliares.onclick = function (event) {
       `;
   }
 
-  borrarElemento(document.querySelector("#familiares"));
-  borrarElemento(document.querySelector("#botones"));
+  borrarElemento(document.querySelector('#familiares'));
+  borrarElemento(document.querySelector('#botones'));
 
   const numeroFamiliares = Number(
-    document.querySelector("#numero-familiares").value
+    document.querySelector('#numero-familiares').value
   );
 
   for (let i = 0; i < numeroFamiliares; i++) {
     crearFamiliar(i);
   }
 
-  const botonCalcular = document.createElement("button");
-  botonCalcular.id = "boton-calcular";
-  botonCalcular.innerText = "Calcular";
-  botonCalcular.type = "button";
-  botonCalcular.className = "col-1 btn btn-outline-success";
+  const botonCalcular = document.createElement('button');
+  botonCalcular.id = 'boton-calcular';
+  botonCalcular.innerText = 'Calcular';
+  botonCalcular.type = 'button';
+  botonCalcular.className = 'col-1 btn btn-outline-success';
   botonCalcular.onclick = function () {
-    resolverCalculo("edad");
-    if (document.querySelectorAll(".activo.sueldo").length > 0) {
-      resolverCalculo("sueldo");
+    borrarResultados();
+    resolverCalculo('edad');
+    if (document.querySelectorAll('.activo.sueldo').length > 0) {
+      resolverCalculo('sueldo');
     }
   };
-  document.querySelector("#botones").appendChild(botonCalcular);
+  document.querySelector('#botones').appendChild(botonCalcular);
 
-  const botonReset = document.createElement("button");
-  botonReset.innerText = "Reset";
-  botonReset.type = "button";
-  botonReset.className = "col-1 btn btn-outline-danger";
+  const botonReset = document.createElement('button');
+  botonReset.id = 'boton-reset';
+  botonReset.innerText = 'Reset';
+  botonReset.type = 'button';
+  botonReset.className = 'col-1 btn btn-outline-danger';
   botonReset.onclick = function () {
-    borrarElemento(document.querySelector("#familiares"));
-    borrarElemento(document.querySelector("#botones"));
+    borrarElemento(document.querySelector('#familiares'));
+    borrarElemento(document.querySelector('#botones'));
     borrarResultados();
   };
-  document.querySelector("#botones").appendChild(botonReset);
+  document.querySelector('#botones').appendChild(botonReset);
 };
 
 /*
@@ -175,8 +177,8 @@ function conseguirMedio(valores) {
   let suma = 0;
   let cantidad = 0;
   valores.forEach((element) => {
-      suma = suma + element;
-      cantidad++;
+    suma = suma + element;
+    cantidad++;
   });
   if (cantidad > 0) {
     return suma / cantidad;
